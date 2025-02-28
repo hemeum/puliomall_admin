@@ -9,8 +9,7 @@ const ProductPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
     null
   );
-
-  const prdListData = [
+  const [prdListData, setPrdListData] = useState<ProductType[]>([
     {
       id: 0,
       name: '아이폰 15',
@@ -32,7 +31,8 @@ const ProductPage = () => {
       sale: '5%',
       img: '/airpods.jpg',
     },
-  ];
+  ]);
+
   return (
     <PageLayout>
       <h3 className="text-2xl font-bold">상품 대시보드</h3>
@@ -48,7 +48,7 @@ const ProductPage = () => {
           <div className="w-32">가격</div>
           <div className="w-24">할인율</div>
         </li>
-        {prdListData.map((data) => {
+        {prdListData.map((data: ProductType) => {
           return (
             <li
               key={data.id}
@@ -101,6 +101,8 @@ const ProductPage = () => {
           popType={popType}
           setIsOpenPop={setIsOpenPop}
           selectedProduct={selectedProduct}
+          prdListData={prdListData}
+          setPrdListData={setPrdListData}
         ></PrdItemPop>
       )}
     </PageLayout>
