@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, SetStateAction } from 'react';
 import { PrdItemPopProps } from '../types/product';
 
 const PrdItemPop = ({
@@ -11,6 +11,8 @@ const PrdItemPop = ({
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [sale, setSale] = useState('');
+  const [selectedImg, setSelectedImg] = useState('');
+  const [prvImg, setPrvImg] = useState('');
 
   const onSubmit = () => {
     if (!name && !price && !sale) {
@@ -26,18 +28,36 @@ const PrdItemPop = ({
         name,
         price,
         sale,
-        img: '/default.jpg',
+        img: selectedImg ? selectedImg : '/default.jpg',
+        prvImg: prvImg ? prvImg : '',
       };
       setPrdListData((prev) => [...prev, newProduct]);
     }
     if (popType === '상품수정' && modifiedProduct) {
       setPrdListData((prev) =>
         prev.map((prd) =>
-          prd.id === modifiedProduct.id ? { ...prd, name, price, sale } : prd
+          prd.id === modifiedProduct.id
+            ? { ...prd, name, price, sale, prvImg }
+            : prd
         )
       );
     }
     setIsOpenPop(false);
+  };
+
+  const handleUploadImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      // 파일을 읽고 이미지 URL을 생성해서 프리뷰 상태에 저장
+      reader.onloadend = () => {
+        setPrvImg(reader.result as string);
+      };
+
+      reader.readAsDataURL(file); //
+      setSelectedImg(file.name);
+    }
   };
 
   return (
@@ -111,6 +131,21 @@ const PrdItemPop = ({
           >
             {popType}
           </button>
+        </div>
+        <div>
+          <h3>파일 업로드</h3>
+          {(prvImg || modifiedProduct?.prvImg) && (
+            <div>
+              <img
+                src={prvImg || modifiedProduct?.prvImg}
+                alt="Image Preview"
+                style={{ maxWidth: '300px', maxHeight: '300px' }}
+              />
+            </div>
+          )}
+          <form>
+            <input type="file" accept="image/*" onChange={handleUploadImg} />
+          </form>
         </div>
       </div>
     </div>

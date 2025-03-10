@@ -4,6 +4,7 @@ export type ProductType = {
   price: string;
   sale: string;
   img: string;
+  prvImg: string;
 };
 
 export type PrdItemPopProps = {

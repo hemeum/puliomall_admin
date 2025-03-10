@@ -16,6 +16,7 @@ const ProductPage = () => {
       price: '1,200,000원',
       sale: '10%',
       img: '/iphone.jpg',
+      prvImg: '',
     },
     {
       id: 1,
@@ -23,6 +24,7 @@ const ProductPage = () => {
       price: '2,500,000원',
       sale: '15%',
       img: '/macbook.jpg',
+      prvImg: '',
     },
     {
       id: 2,
@@ -30,6 +32,7 @@ const ProductPage = () => {
       price: '350,000원',
       sale: '5%',
       img: '/airpods.jpg',
+      prvImg: '',
     },
   ]);
 
@@ -101,7 +104,7 @@ const ProductPage = () => {
               <div className="w-16 text-gray-700">{data.id}</div>
               <div className="w-24">
                 <img
-                  src={data.img || '/default.jpg'}
+                  src={data.prvImg || '/default.jpg'}
                   alt={data.name}
                   className="h-24 w-24 rounded-md border object-cover"
                 />
