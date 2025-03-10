@@ -9,7 +9,7 @@ export type ProductType = {
 export type PrdItemPopProps = {
   setIsOpenPop: (value: boolean) => void;
   popType: string;
-  selectedProduct: ProductType | null;
+  modifiedProduct: ProductType | null;
   prdListData: ProductType[];
   setPrdListData: React.Dispatch<React.SetStateAction<ProductType[]>>;
 };

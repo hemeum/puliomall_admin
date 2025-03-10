@@ -4,7 +4,7 @@ import { PrdItemPopProps } from '../types/product';
 const PrdItemPop = ({
   setIsOpenPop,
   popType,
-  selectedProduct,
+  modifiedProduct,
   prdListData,
   setPrdListData,
 }: PrdItemPopProps) => {
@@ -13,6 +13,10 @@ const PrdItemPop = ({
   const [sale, setSale] = useState('');
 
   const onSubmit = () => {
+    if (!name && !price && !sale) {
+      alert('입력해주세요.');
+      return;
+    }
     if (popType === '상품등록') {
       const newProduct = {
         id:
@@ -26,10 +30,10 @@ const PrdItemPop = ({
       };
       setPrdListData((prev) => [...prev, newProduct]);
     }
-    if (popType === '상품수정' && selectedProduct) {
+    if (popType === '상품수정' && modifiedProduct) {
       setPrdListData((prev) =>
         prev.map((prd) =>
-          prd.id === selectedProduct.id ? { ...prd, name, price, sale } : prd
+          prd.id === modifiedProduct.id ? { ...prd, name, price, sale } : prd
         )
       );
     }
@@ -47,11 +51,11 @@ const PrdItemPop = ({
       >
         <h3 className="text-2xl font-bold">{popType}</h3>
         <ul>
-          <li>{selectedProduct ? selectedProduct.id : ''}</li>
-          <li>{selectedProduct ? selectedProduct.img : ''}</li>
-          <li>{selectedProduct ? selectedProduct.name : ''}</li>
-          <li>{selectedProduct ? selectedProduct.price : ''}</li>
-          <li>{selectedProduct ? selectedProduct.sale : ''}</li>
+          <li>{modifiedProduct ? modifiedProduct.id : ''}</li>
+          <li>{modifiedProduct ? modifiedProduct.img : ''}</li>
+          <li>{modifiedProduct ? modifiedProduct.name : ''}</li>
+          <li>{modifiedProduct ? modifiedProduct.price : ''}</li>
+          <li>{modifiedProduct ? modifiedProduct.sale : ''}</li>
 
           <li>
             상품명 :{' '}
@@ -92,14 +96,22 @@ const PrdItemPop = ({
             %
           </li>
         </ul>
-
-        <button
-          type="button"
-          className="m-auto block rounded-lg bg-[#2e0f6e] p-4 text-[#fff] hover:bg-opacity-90"
-          onClick={onSubmit}
-        >
-          {popType}
-        </button>
+        <div className="flex justify-center gap-2">
+          <button
+            type="button"
+            className="block rounded-lg bg-[gray] p-4 text-[#fff] hover:bg-opacity-90"
+            onClick={() => setIsOpenPop(false)}
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            className="block rounded-lg bg-[#2e0f6e] p-4 text-[#fff] hover:bg-opacity-90"
+            onClick={onSubmit}
+          >
+            {popType}
+          </button>
+        </div>
       </div>
     </div>
   );
